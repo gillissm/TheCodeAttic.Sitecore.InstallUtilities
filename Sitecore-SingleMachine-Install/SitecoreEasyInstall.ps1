@@ -12,7 +12,7 @@ $SolrHostName= "solrForSitecore20"
 ###Version of Solr to be installed, Sitecore XP 9 will only run using Solr 6.6.2 
 $SolrVersion = "6.6.2"
 ###Name of the MS SQL Server that will be connected to
-$SqlServer = "PLW3007\LOCALSQL2017" 
+$SqlServer = "LOCALSQL2017" 
 ###SQL Admin User that has the ability to create new databases and users
 $SqlAdminUser = "sa" 
 ###SQL Admin Password
