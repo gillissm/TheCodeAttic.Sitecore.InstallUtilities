@@ -99,10 +99,10 @@ param(
     [Parameter(Mandatory = $false, HelpMessage = "Include the switch to delete/uninstall the SXA Solr Cores")]
     [switch]$UninstallCores,
     [Parameter(Mandatory = $false, HelpMessage = "Full path to the directory that contains both sxa-solr.json and solr-suggester-config.json. Defaults to the directory of the script file.")]
-    [switch]$PathToJson = $PSScriptRoot
+    [string]$PathToJson = $PSScriptRoot
 )
 
-Import-Module SitecoreInstallFramework -Force -RequiredVersion 2.2.0
+Import-Module SitecoreInstallFramework -Force -RequiredVersion 2.1.0
 Import-Module SitecoreFundamentals
 
 $sitewebroot = if ($SitePhysicalRoot -eq "") { "C:\inetpub\wwwroot\$SitecoreSiteName" }Else { $SitePhysicalRoot }
@@ -150,9 +150,7 @@ if ($decision -eq 0) {
     else{
         Install-SitecoreConfiguration @sxaIndexCreateParams *>&1 | Tee-Object SXAIndex-Install.log
         Write-Host "Solr Core setup for SXA completed" -ForegroundColor DarkGreen
-    }    
-
-    
+    }        
 }
 else {
     Write-Host "Solr Core setup was cancelled by the user." -ForegroundColor DarkYellow

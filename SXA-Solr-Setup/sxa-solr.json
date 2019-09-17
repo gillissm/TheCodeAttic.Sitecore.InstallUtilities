@@ -1,5 +1,5 @@
 {
-  "Parameters": {    
+  "Parameters": {
     "SolrUrl": {
       "Type": "string",
       "DefaultValue": "",
@@ -39,12 +39,12 @@
       "Type": "string",
       "DefaultValue": "c:\\inetpub\\wwwroot\\mysite",
       "Description": "The sitecore site web root path."
-  },
-  "SuggesterJsonPath":{ 
-    "Type": "string",
-    "DefualtValue":"",
-    "Description": "Fully qualified path to the JSON file which defines the configuration updates for Solr to support suggester."
-}
+    },
+    "SuggesterJsonPath": {
+      "Type": "string",
+      "DefualtValue": "",
+      "Description": "Fully qualified path to the JSON file which defines the configuration updates for Solr to support suggester."
+    }
   },
   "Variables": {
     "Solr.FullRoot": "[resolvepath(parameter('SolrRoot'))]",
@@ -191,34 +191,36 @@
         }
       ]
     },
-    "UpdateSolrSchema": {
-      "Type": "SitecoreUrl",
-      "Params": {
-        "SitecoreInstanceRoot": "[concat('https://', parameter('SiteName'))]",
-        "SitecoreActionPath": "sitecore/admin/PopulateManagedSchema.aspx?indexes=sitecore_sxa_master_index|sitecore_sxa_web_index",
-        "UserName": "admin",
-        "Password": "[parameter('SitecoreAdminPassword')]"
-      },
     "UpdateMasterSXAIndex": {
-        "Type": "SetXml",
-        "Params": [
-            {
-                "FilePath": "[variable('SolrSearchConfig'))]",
-                "Xpath": "[variable('SolrSearchMasterIndexCoreNameXpath')]",
-                "Value": "[variable('SXA.Master.Name')]"
-            }
-        ]
+      "Type": "SetXml",
+      "Params": [
+        {
+          "FilePath": "[variable('SolrSearchConfig'))]",
+          "Xpath": "[variable('SolrSearchMasterIndexCoreNameXpath')]",
+          "Value": "[variable('SXA.Master.Name')]"
+        }
+      ]
     },
     "UpdateWebSXAIndex": {
-        "Type": "SetXml",
-        "Params": [
-            {
-                "FilePath": "[variable('SolrSearchConfig'))]",
-                "Xpath": "[variable('SolrSearchWebIndexCoreNameXpath')]",
-                "Value": "[variable('SXA.Web.Name')]"
-            }
-        ]
-    }
+      "Type": "SetXml",
+      "Params": [
+        {
+          "FilePath": "[variable('SolrSearchConfig'))]",
+          "Xpath": "[variable('SolrSearchWebIndexCoreNameXpath')]",
+          "Value": "[variable('SXA.Web.Name')]"
+        }
+      ]
+    },
+    "UpdateSolrSchema": {
+      "Type": "SitecoreUrl",
+      "Params": [
+        {
+          "SitecoreInstanceRoot": "[concat('https://', parameter('SiteName'))]",
+          "SitecoreActionPath":  "sitecore/admin/PopulateManagedSchema.aspx?indexes=sitecore_sxa_master_index|sitecore_sxa_web_index",
+          "UserName": "admin",
+          "Password": "[parameter('SitecoreAdminPassword')]"
+        }
+      ]
     }
   },
   "UninstallTasks": {
@@ -243,6 +245,26 @@
             "deleteInstanceDir": "true"
           },
           "ErrorAction": "SilentlyContinue"
+        }
+      ]
+    },
+    "UpdateMasterSXAIndex": {
+      "Type": "SetXml",
+      "Params": [
+        {
+          "FilePath": "[variable('SolrSearchConfig'))]",
+          "Xpath": "[variable('SolrSearchMasterIndexCoreNameXpath')]",
+          "Value": "$(id)"
+        }
+      ]
+    },
+    "UpdateWebSXAIndex": {
+      "Type": "SetXml",
+      "Params": [
+        {
+          "FilePath": "[variable('SolrSearchConfig'))]",
+          "Xpath": "[variable('SolrSearchWebIndexCoreNameXpath')]",
+          "Value": "$(id)"
         }
       ]
     }
