@@ -33,11 +33,11 @@ Enough rambling and onto the the required steps
 5. You will be prompted to complete the following required parameters, and then be shown a check list to ensure everything is correct.
 6. Enter Y or N depending on if you wish to continue with the process
 
-![Prompt of Parameters and Continuation Question](/documentation/images/sxa-solrinstall-img1.png)
+![Prompt of Parameters and Continuation Question](/Documentation/images/sxa-solrinstall-img1.png)
 
 1. The script will run and upon completion you should see the following message (or if your unluckly a red message of an error.)
 
-![Completion of Script](/documentation/images/sxa-solrinstall-img2.png)
+![Completion of Script](/Documentation/images/sxa-solrinstall-img2.png)
 
 ## How to Uninstall
 
@@ -47,8 +47,8 @@ For whatever reason you need to delete the SXA Solr cores and reset the configur
 
 You will then be prompted to enter the required parameters, followed by a confirmation message.
 
-![Uninstall Solr Cores parameters and confirmation message](/documentation/images/sxa-solrinstall-img3.png)
+![Uninstall Solr Cores parameters and confirmation message](/Documentation/images/sxa-solrinstall-img3.png)
 
 The script will run, and you'll get a dark green confirmation or a red error message to resolve.
 
-![Uninstall Solr Cores Completion Message](/documentation/images/sxa-solrinstall-img4.png)
+![Uninstall Solr Cores Completion Message](/Documentation/images/sxa-solrinstall-img4.png)
