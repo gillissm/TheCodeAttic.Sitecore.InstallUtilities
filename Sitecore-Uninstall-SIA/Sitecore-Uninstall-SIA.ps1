@@ -82,6 +82,7 @@ Write-Host "    Prefix..................... $Prefix"
 Write-Host "    Sitecore Site Name......... $SitecoreSiteName" 
 Write-Host "    xConnect Site Name......... $XConnectSiteName" 
 Write-Host "    Identity Server Site Name.. $IdentityServerSiteName" 
+Write-Host "    SC Install Root............ $SCInstallRoot" 
 
 $question = "Do you want to proceed with uninstalling $SitecoreSiteName?"
 $choices  = '&Yes', '&No'
