@@ -58,11 +58,11 @@ param(
     [Parameter(Mandatory = $true, HelpMessage = "A SQL user with sysadmin privileges")]
     [string]$SqlAdminUser,
     # The password for $SQLAdminUser.
-    [Parameter(Mandatory = $fatruelse, HelpMessage = "The password for SQLAdminUser.")]
+    [Parameter(Mandatory = $true, HelpMessage = "The password for SQLAdminUser.")]
     [string]$SqlAdminPassword,
     # The full path to a specific log file for uninstalling
     [Parameter(Mandatory = $false, HelpMessage = "The full path to a specific log file that the uninstall should be based on.")]
-    [string]$SIALogFile = "$env:USERPROFILE\sitecore.installassistant\Sitecore-InstallConfiguration_1612885974.txt"
+    [string]$SIALogFile = ""
 )
 
 Import-Module SitecoreInstallFramework -RequiredVersion 2.2.0
