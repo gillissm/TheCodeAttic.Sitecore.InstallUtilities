@@ -51,7 +51,6 @@ You will then be prompted for required parameters.
 #>
 
 param(
-
     # The DNS name or IP of the SQL Instance.
     [Parameter(Mandatory = $true, HelpMessage = "The DNS name or IP of the SQL Instance")]
     [string]$SqlServer,
@@ -63,14 +62,13 @@ param(
     [string]$SqlAdminPassword,
     # The full path to a specific log file for uninstalling
     [Parameter(Mandatory = $false, HelpMessage = "The full path to a specific log file that the uninstall should be based on.")]
-    [string]$SIALogFile=""
+    [string]$SIALogFile = ""
 )
 
 Import-Module SitecoreInstallFramework -RequiredVersion 2.2.0
 Import-Module SitecoreFundamentals
 
-if($SIALogFile -eq "" )
-{
+if ($SIALogFile -eq "" ) {
     # Retrieve the log file from the last run of SIA.
     $logfile = Get-ChildItem -Path "$env:USERPROFILE\sitecore.installassistant" -Filter "Sitecore-InstallConfiguration_*.txt" | Sort-Object -Property LastWriteTime -Descending | Select-Object -First 1
 
@@ -86,47 +84,42 @@ $SCInstallConfig = ""
 $workingDirectoryPath = Select-String -Path $SIALogFile -Pattern "^WorkingDirectory" -list
 $whatIfLine = Select-String -Path $SIALogFile -Pattern "^WhatIf" -list
 	
-if($workingDirectoryPath.LineNumber -lt ($whatIfLine.LineNumber - 1))
-{
-	#is a wrapped line.
-	$secondPart = Get-Content $SIALogFile | Select-Object -Index $workingDirectoryPath.LineNumber
-	$secondPart = $secondPart.Trim()
-	if($secondPart.Startswith("/"))
-	{
-		$SCInstallRoot = Join-Path ($workingDirectoryPath -split " :")[1].Trim() $secondPart
-	}
-	else{
-		$SCInstallRoot = "{0} {1}" -f ($workingDirectoryPath -split " :")[1].Trim(),$secondPart		
-	}        
+if ($workingDirectoryPath.LineNumber -lt ($whatIfLine.LineNumber - 1)) {
+    #is a wrapped line.
+    $secondPart = Get-Content $SIALogFile | Select-Object -Index $workingDirectoryPath.LineNumber
+    $secondPart = $secondPart.Trim()
+    if ($secondPart.Startswith("/")) {
+        $SCInstallRoot = Join-Path ($workingDirectoryPath -split " :")[1].Trim() $secondPart
+    }
+    else {
+        $SCInstallRoot = "{0} {1}" -f ($workingDirectoryPath -split " :")[1].Trim(), $secondPart		
+    }        
 }	
 else {
-	$SCInstallRoot = ($workingDirectoryPath -split " : ")[1].Trim()
+    $SCInstallRoot = ($workingDirectoryPath -split " : ")[1].Trim()
 }
 
 #Get Install Configuration JSON
-$confiugrationPath = Select-String -Path $SIALogFile -Pattern ".XP0-SingleDeveloper.json$" -list
-$whatIfLine = Select-String -Path $SIALogFile -Pattern "^WhatIf" -list
+$configurationPath = Select-String -Path $SIALogFile -Pattern ".XP0-SingleDeveloper.json$" -list
 	
- if (-Not $confiugrationPath.Line.StartsWith("Configuration")) {	
-        #is a wrapped line
-        $i = $devJsonConfig.LineNumber - 2
-        $firstPath = Get-Content $SIALogFile | Select-Object -Index $i		
-		if($confiugrationPath.Line.Trim().StartsWith("/"))
-		{
-			$SCInstallConfig = Join-Path ($firstPath -split " :")[1].Trim() $confiugrationPath.Line.Trim()	
-		}
-		else
-		{
-			$SCInstallConfig = "{0} {1}" -f ($firstPath -split " :")[1].Trim(),$confiugrationPath.Line.Trim()		
-		}
-        
+if (-Not $configurationPath.Line.StartsWith("Configuration")) {	
+    #is a wrapped line
+    $i = $configurationPath.LineNumber - 2
+    $firstPath = Get-Content $SIALogFile | Select-Object -Index $i		
+    if ($configurationPath.Line.Trim().StartsWith("/")) {
+        $SCInstallConfig = Join-Path ($firstPath -split " :")[1].Trim() $configurationPath.Line.Trim()	
     }
     else {
-        $SCInstallConfig = ($confiugrationPath -split " : ")[1].Trim()
+        $SCInstallConfig = "{0} {1}" -f ($firstPath -split " :")[1].Trim(), $configurationPath.Line.Trim()		
     }
+        
+}
+else {
+    $SCInstallConfig = ($configurationPath -split " : ")[1].Trim()
+}
 
 # The URL of the Solr Server
-$SolrUrl =  ((Select-String -Path $SIALogFile -Pattern "\[Requesting\].https.[/solr]{1}?" -list) -split "\[Requesting\]")[1].Trim()
+$SolrUrl = ((Select-String -Path $SIALogFile -Pattern "\[Requesting\].https.[/solr]{1}?" -list) -split "\[Requesting\]")[1].Trim()
 # The name for the XConnect service.
 $XConnectSiteName = ((Select-String -Path $SIALogFile -SimpleMatch -Pattern "[XConnectXP0_CreateWebsite]:[Create]") -split " ")[1]
 # The Sitecore site instance name.
